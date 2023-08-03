@@ -1,7 +1,6 @@
 % DCG to match strings to string patterns, e.g "foo" = "f*".
 
-% patt//1 is the interface to the DCG. It matches an empty string or a string
-% pattern.
+% patt//1 is the interface to the DCG.
 patt([])       --> [].
 patt([C|Cs])   --> char(C), patt(Cs).
 patt(['*'|Cs]) --> word, chrs(Cs).
@@ -10,10 +9,10 @@ patt(['*'|Cs]) --> word, chrs(Cs).
 chrs([])       --> [].
 chrs([C|Cs])   --> char(C), patt(Cs).
 
-% char//1 matches any printable character.
+% char//1 matches any printable character, and space.
 char(C)        --> [C], { char_type(C, graph) }.
 char(' ')      --> [' '].
 
-% word//0 is a terminal which generates sequences of printable characters.
+% word//0 generates sequences of char//1.
 word           --> char(_), (word | empt).
 empt           --> [].
